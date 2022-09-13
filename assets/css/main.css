@@ -1,0 +1,23 @@
+body {
+    background-color: #010323;
+}
+
+.snow-underline {
+    text-decoration: underline solid transparent;
+    transition: text-decoration 1s ease;
+}
+
+.snow-underline:hover {
+  text-decoration: underline solid #fff;
+  text-underline-offset: 8px;
+}
+
+.fa-github:hover {
+    color: #333;
+    transition: ease all 1s;
+}
+
+.fa-twitter:hover {
+    color: #1DA1F2;
+    transition: ease all 1s;
+}
