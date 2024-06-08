@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/assets/css/main.css?v=1" />
+    <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script
       src="https://kit.fontawesome.com/2b6358b0da.js"
@@ -28,15 +29,62 @@
         height="450"
       />
       <div class="text-white flex flex-col items-center space-y-5">
-        <div class="text-4xl sm:text-5xl text-center">Get in Touch</div>
+        <!-- <div class="text-4xl sm:text-5xl text-center">Get in Touch</div> -->
         <div class="text-1xl sm:text-2xl text-center">
           building web services & apps
         </div>
-        <a
-          class="text-2xl sm:text-3xl snow-underline"
-          href="mailto:info@snowlaboratory.com"
-          >info@snowlaboratory.com</a
+
+        <form
+          x-data="{
+            loading: false,
+  submit(e) {
+    this.loading = true;
+      const form = e.target;
+      const data = new FormData(form);
+      const action = form.action
+      fetch(action, {
+              method: form.method,
+              body: data,
+              //credentials: 'include',
+              //redirect: 'follow',
+              //mode: 'no-cors',
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success === true) {
+                  alert('Yay!')
+              } else {
+                  alert(`Form submission failed. ${data.error}`);
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('Form submission failed.');
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+  }
+}"
+          x-on:submit.prevent="submit"
+          method="post"
+          class="w-80 space-y-3"
+          action="https://script.google.com/macros/s/AKfycbz0uUkP9vrt9GPpy0w27qc2ggYBUoscgM5gj5trC3qseNX9h4TtL16UQaw1Wjqdq-To/exec"
         >
+          <div>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              class="p-3 rounded w-full bg-indigo-950 ring-indigo-800 ring focus:!ring-indigo-700 !outline-none focus:ring-2 focus:ring-offset-2 ring-offset-black !border-none !shadow-none"
+            />
+          </div>
+          <button type="submit" class="bg-indigo-700 rounded p-3 w-full">
+            <span x-show="!loading">Get in touch</span>
+            <i x-show="loading" class="fa-solid fa-spinner animate-spin"></i>
+          </button>
+        </form>
+
         <div class="!mt-16">
           <a
             class="text-2xl md:text-4xl pr-3 snow-git"
